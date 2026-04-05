@@ -1,6 +1,8 @@
 import React, {Component} from "react";
+import {Link} from "react-router-dom/cjs/react-router-dom.min";
 import Elemento from "../Elemento/Elemento";
-import FormularioB from "../FormularioB/FormularioB";
+import FormularioB from "../FormularioB/FormularioB"; 
+import Populares from "../Populares/Populares";
 
 class Grupos extends Component{
     constructor(props){
@@ -35,17 +37,21 @@ render(){
             <FormularioB class="search-form" />
             <h2 className="alert alert-primary">Peliculas mas populares</h2>
             <section className="row cards">
-                    { this.state.datosPopulares.map( (pelicula, idx ) => <Elemento datos={pelicula} key={pelicula.id}/>)}
+                    { this.state.datosPopulares.map( (pelicula, idx ) => <Elemento datos={pelicula} key={pelicula.id} tipo={"movie"}/>)}
+                     <Link to="/Populares">
                     <button className="btn alert-primary">Ver todas</button>
+                    </Link>
             </section>
              <h2 className="alert alert-primary">Peliculas en cartel</h2>
              <section className="row cards">
-                    {this.state.datosCartel.map  ((pelicula, idx) => <Elemento datos={pelicula} key={pelicula.id}/> )}
+                    {this.state.datosCartel.map  ((pelicula, idx) => <Elemento datos={pelicula} key={pelicula.id} tipo={"movie"}/> )}
+                    <Link to="/Cartel">
                     <button className="btn alert-primary">Ver todas</button>
+                    </Link>
              </section>
         </div>
     )
 }
 }
 
-export default Grupos
+export default Grupos;

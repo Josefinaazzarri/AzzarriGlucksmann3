@@ -5,6 +5,10 @@ import CrearCuenta from './screens/CrearCuenta/CrearCuenta';
 import Home from './screens/Home/Home';
 import Login from './screens/Login/Login';
 import Favoritos from './screens/Favoritos/Favoritos';
+import Populares from './components/Populares/Populares';
+import Cartel from './components/Cartel/Cartel';
+import UnDetalle from './components/UnDetalle/UnDetalle';
+
 
 
 
@@ -18,6 +22,9 @@ function App() {
         <Route path="/Login" component={Login}/>
         <Route path="/CrearCuenta" component={CrearCuenta}/>
         <Route path="/Favoritos" component={Favoritos}/>
+        <Route path="/Populares" component={Populares}/>
+        <Route path="/Cartel" component={Cartel}/>
+        <Route path="/UnDetalle/:tipo/:id" component={UnDetalle}/>
       </Switch>
       <Footer/>
     </div>

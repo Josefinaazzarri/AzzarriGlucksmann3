@@ -5,10 +5,11 @@ class Elemento extends Component{
     constructor(props){
         super(props)
         this.state = {
-            id: props.id,
+            id: props.datos.id,
             Img: props.datos.poster_path,
             Name: props.datos.original_title,
             Descripcion: props.datos.overview,
+            tipo: props.tipo
         }
     }
 
@@ -33,7 +34,9 @@ class Elemento extends Component{
                 <p className="card-text">Descripcion: {this.state.Descripcion}</p>
                 </section>
 		        <button className="btn alert-primary" >Agregar a Favoritos</button>
+                <Link to={"/UnDetalle/" + this.props.tipo + "/" + this.props.datos.id}>
                 <button className="btn alert-primary" >Ir a detalle</button> 
+                </Link>
             </div>
         </article>
         )
