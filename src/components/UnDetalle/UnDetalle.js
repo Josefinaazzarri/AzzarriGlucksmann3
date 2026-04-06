@@ -33,7 +33,6 @@ class Detalle extends Component{
             Fecha: data.release_date ? data.release_date : data.first_air_date,
             Duracion: data.runtime,
             Sinopsis: data.overview,
-            Genero: data.genres[0] ? data.genres[0].name : ""
         }))
         .catch(error => console.log(error))
     }
@@ -53,7 +52,6 @@ class Detalle extends Component{
                 <p className="mt-0 mb-0">Sinopsis: {this.state.Sinopsis}</p>
                 <p className="mt-0 mb-0">Género: {this.state.Genero}</p>
                 <button>Agregar a favoritos</button>
-
             </section>
             )
 

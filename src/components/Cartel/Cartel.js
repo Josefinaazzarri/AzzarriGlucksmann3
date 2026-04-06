@@ -45,7 +45,7 @@ render(){
             <input type="text" name="filter" id="" onChange={(event) => this.controlarInput(event)}></input>
         </form>
           <section className="row cards">
-                    { this.state.datosC.map( (pelicula, idx ) => <Elemento datos={pelicula} key={pelicula.id}/>)}
+                    { this.state.datosC.map( (pelicula, idx ) => <Elemento datos={pelicula} key={pelicula.id} tipo={"movie"}/>)}
             </section>
             <button className="btn alert-primary" onClick={() => this.cargarMas()}>
             Cargar más

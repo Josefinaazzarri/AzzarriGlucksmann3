@@ -34,7 +34,7 @@ componentDidMount(){
 render(){
     return(
         <div> 
-            <FormularioB class="search-form" />
+            <FormularioB className="search-form" />
             <h2 className="alert alert-primary">Peliculas mas populares</h2>
             <section className="row cards">
                     { this.state.datosPopulares.map( (pelicula, idx ) => <Elemento datos={pelicula} key={pelicula.id} tipo={"movie"}/>)}

@@ -11,8 +11,6 @@ import UnDetalle from './components/UnDetalle/UnDetalle';
 
 
 
-
-
 function App() {
   return (
     <div>

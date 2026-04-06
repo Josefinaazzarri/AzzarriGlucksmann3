@@ -90,6 +90,23 @@ nav {
 
 }
 
+.col-md-6{
+    width: 100px;
+}
+
+.alert{
+    
+}
+.row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
 .show{
     display: block;
 }
