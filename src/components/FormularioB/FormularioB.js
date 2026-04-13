@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { withRouter } from "react-router-dom";
 
 
 class FormularioB extends Component {
@@ -30,4 +31,4 @@ class FormularioB extends Component {
     }
 }
 
-export default FormularioB
+export default withRouter(FormularioB)

@@ -39,8 +39,6 @@ class Detalle extends Component{
 
     render(){
 
-        let duracion = ""
-
         if(this.props.tipo == "movie"){
             return(
             <section className="row">

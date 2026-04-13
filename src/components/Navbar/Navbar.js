@@ -30,10 +30,6 @@ class Navbar extends Component{
                         : "show"}
                     >
     <a className="nav-link"><Link to={elemento.Path}> {elemento.Nombre}</Link></a></li>) }
-                 <li className="nav-item" >
-                <p className="nav-link usuario">UdeSA Movies</p>
-                <img src="" alt=""/>
-            </li>
             </ul>
         </nav>
         </div>

@@ -1,5 +1,8 @@
 import { Component } from "react";
 import { withRouter } from "react-router-dom";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies()
 
 class CrearCuenta extends Component {
     constructor(props) {
@@ -17,13 +20,12 @@ class CrearCuenta extends Component {
         password: this.state.password
       }
 
-      let guardado = localStorage.getItem("usuarios")
+      let guardado = cookies.get("usuarios")
       let lista = []
-    
       let puedeGuardar = true
 
       if(guardado){
-      lista = JSON.parse(guardado)
+        lista = guardado
       }
 
       for(let i = 0; i < lista.length; i++){
@@ -40,10 +42,10 @@ class CrearCuenta extends Component {
 
       if(puedeGuardar == true){
         lista.push(usuario)
-      let usuarioInfo = JSON.stringify(lista)
-      localStorage.setItem("usuarios", usuarioInfo)
-      localStorage.setItem("usuarioLogueado", usuario.email)
-      alert("Usuario guardado")
+        cookies.set("usuarios", lista)
+        cookies.set('usuarioLogueado', usuario.email)
+        alert("Usuario guardado")
+        this.props.history.push("/")
       }
     }
 

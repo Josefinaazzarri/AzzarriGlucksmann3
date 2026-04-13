@@ -1,5 +1,5 @@
 import React from "react";
-import Grupos from "../../components/Grupos/Grupos";
+import Grupos from "../../components/SeccionPeliculas/SeccionPeliculas";
 
 function Home() {
     return(

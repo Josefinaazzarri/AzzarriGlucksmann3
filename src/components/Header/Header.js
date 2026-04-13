@@ -19,7 +19,7 @@ function Header() {
 
 
   return(
-        <div>
+      <div>
         <Navbar menu={menu}/>
       </div>
     )
