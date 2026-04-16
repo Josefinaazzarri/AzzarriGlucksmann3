@@ -6,7 +6,8 @@ class Populares extends Component{
         super(props)
         this.state = {
             datosP: [],
-            pagina: 1,
+            datosCopia: [],
+            pagina: 2,
             filtro: ""
         }
     }
@@ -15,13 +16,23 @@ componentDidMount(){
     .then(response => response.json())
         .then(data => {
       console.log(data.results)
-      this.setState({ datosP: data.results})
+      this.setState({ datosP: data.results,
+        datosCopia: data.results})
     })
     .catch( error => console.log(error))
 }
+ enviarFormulario(event){
+        event.preventDefault()
+    } 
+
 controlarInput(event){
     this.setState({
         filtro: event.target.value
+    }, this.filtrar())
+}
+filtrar(){
+    this.setState({
+        datosCopia:this.state.datosP.filter(movie => movie.original_title.toLowerCase().includes(this.state.filtro.toLowerCase()))
     })
 }
 cargarMas(){
@@ -30,6 +41,7 @@ cargarMas(){
             .then(data => {
                 this.setState({
                     datosP: this.state.datosP.concat(data.results), 
+                    datosCopia: this.state.datosCopia.concat(data.results),
                     pagina: this.state.pagina + 1 
                 });
             })
@@ -37,15 +49,16 @@ cargarMas(){
     }
 
 render(){
+
     return(
-        
         <div>
             <h2 className="alert alert-primary">Todas las películas</h2>
-        <form className="filter-form px-0 mb-3" action="" method="get">
-            <input type="text" name="filter" id="" onChange={(event) => this.controlarInput(event)}></input>
+        <form className="filter-form px-0 mb-3" onSubmit={(event)=> this.enviarFormulario(event)}>
+            <input type="text" name="filter" id="" onChange={(event) => this.controlarInput(event)}/>
+            <button className="btn btn-success btn-sm" type="submit">Enviar</button>
         </form>
           <section className="row cards">
-                    { this.state.datosP.map( (pelicula, idx ) => <Elemento datos={pelicula} key={pelicula.id} tipo={"movie"}/>)}
+                    { this.state.datosCopia.map( (pelicula, idx ) => <Elemento datos={pelicula} key={pelicula.id} tipo={"movie"}/>)}
             </section>
             <button className="btn alert-primary" onClick={() => this.cargarMas()}>
             Cargar más

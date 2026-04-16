@@ -1,5 +1,8 @@
 import { Component } from "react";
 import { withRouter } from "react-router-dom";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies()
 
 class Login extends Component {
     constructor(props) {
@@ -12,13 +15,7 @@ class Login extends Component {
 
     enviarFormulario(event){
       event.preventDefault()
-      let usuariosGuardados = localStorage.getItem("usuarios")
-      let lista = []
-    
-      if (usuariosGuardados) {
-        lista = JSON.parse(usuariosGuardados);
-    }
-
+      let lista = cookies.get("usuarios")
       let usuarioGuardado = false
 
 
@@ -29,7 +26,7 @@ class Login extends Component {
       }
 
       if (usuarioGuardado === true) {
-        localStorage.setItem("usuarioLogueado", this.state.email);
+        cookies.set("usuarioLogueado", this.state.email);
         alert("¡Bienvenido!");
         this.props.history.push("/");
     } else {

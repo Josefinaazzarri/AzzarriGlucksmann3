@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import CrearCuenta from '../../screens/CrearCuenta/CrearCuenta';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies()
 
 class Navbar extends Component{
     constructor(props){
         super(props)
         this.state = {
-            usuarioLogueado: localStorage.getItem("usuarioLogueado")
+            usuarioLogueado: cookies.get("usuarioLogueado")
         }
     }
 

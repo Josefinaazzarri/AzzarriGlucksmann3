@@ -10,7 +10,7 @@ import Cartel from './components/PeliculasCartel/PeliculasCartel';
 import UnDetalle from './components/UnDetalle/UnDetalle';
 import FormularioB from './components/FormularioB/FormularioB';
 import ResultadosDeBusqueda from './components/ResultadosDeBusqueda/ResultadosDeBusqueda';
-
+import NotFound from "./components/NotFound/NotFound";
 
 
 function App() {
@@ -28,6 +28,7 @@ function App() {
         <Route path="/UnDetalle/:tipo/:id" component={UnDetalle}/>
         <Route path="/FromularioB" component={FormularioB}/>
         <Route path="/ResultadosDeBusqueda/:busqueda" component={ResultadosDeBusqueda}/>
+        <Route path="*" component={NotFound}/>
       </Switch>
       <Footer/>
     </div>

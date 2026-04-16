@@ -45,7 +45,7 @@ class CrearCuenta extends Component {
         cookies.set("usuarios", lista)
         cookies.set('usuarioLogueado', usuario.email)
         alert("Usuario guardado")
-        this.props.history.push("/")
+        this.props.history.push("/Login")
       }
     }
 
