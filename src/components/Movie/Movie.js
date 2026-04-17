@@ -1,5 +1,8 @@
 import React, {Component} from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies()
 
 class Elemento extends Component{
     constructor(props){
@@ -10,7 +13,7 @@ class Elemento extends Component{
             Name: props.datos.original_title,
             Descripcion: props.datos.overview,
             tipo: props.tipo,
-            verDescripcion: false
+            verDescripcion: false,
         }
     }
 
@@ -18,6 +21,10 @@ class Elemento extends Component{
         this.setState({
             verDescripcion: !this.state.verDescripcion
         })
+    }
+
+    agregarFavoritos(){
+        cookies.get("usuarioLogueado")
     }
 
     render(){
@@ -32,10 +39,12 @@ class Elemento extends Component{
                 <section className={this.state.verDescripcion ? "show" : "hide"}>
                 <p className="card-text">Descripcion: {this.state.Descripcion}</p>
                 </section>
-		        <button className="btn btn-primary" >Agregar a Favoritos</button>
                 <Link to={"/UnDetalle/" + this.props.tipo + "/" + this.props.datos.id}>
                 <button className="btn btn-primary" >Ir a detalle</button> 
                 </Link>
+                <section className={cookies.get("usuarioLogueado") ? "show" : "hide"}>
+                    <button className="btn btn-primary">Agregar a Favoritos</button>
+                </section>
             </div>
         </article>
         )

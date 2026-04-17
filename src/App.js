@@ -27,7 +27,7 @@ function App() {
         <Route path="/Cartel" component={Cartel}/>
         <Route path="/UnDetalle/:tipo/:id" component={UnDetalle}/>
         <Route path="/FromularioB" component={FormularioB}/>
-        <Route path="/ResultadosDeBusqueda/:busqueda" component={ResultadosDeBusqueda}/>
+        <Route path="/ResultadosDeBusqueda/:tipo/:busqueda" component={ResultadosDeBusqueda}/>
         <Route path="*" component={NotFound}/>
       </Switch>
       <Footer/>
