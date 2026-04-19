@@ -1,6 +1,7 @@
 import { Component } from "react";
 import { withRouter } from "react-router-dom";
 import Cookies from "universal-cookie";
+import Header from "../../components/Header/Header";
 
 const cookies = new Cookies()
 
@@ -35,6 +36,10 @@ class Login extends Component {
     }
     render(){
         return(
+          <div>
+    <h1>UdeSA Movies</h1>
+    <Header/>
+          
           <div className="col-md-6">
             <h2>Login</h2>
             <form onSubmit={(event)=> this.enviarFormulario(event)}>
@@ -58,6 +63,9 @@ class Login extends Component {
             </form>
   
           </div>
+          </div>
+          
+    
         )
     }
 }

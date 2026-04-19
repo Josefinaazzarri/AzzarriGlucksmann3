@@ -16,7 +16,7 @@ componentDidMount(){
     .then(response => response.json())
         .then(data => {
       console.log(data.results)
-      this.setState({ datosC: data.results})
+      this.setState({ datosC: data.results, datosCopia: data.results})
     })
     .catch( error => console.log(error))
 }
@@ -26,7 +26,7 @@ componentDidMount(){
 controlarInput(event){
     this.setState({
         filtro: event.target.value
-    })
+    }, this.filtrar())
 }
 filtrar(){
     this.setState({

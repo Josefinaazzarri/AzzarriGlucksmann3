@@ -16,8 +16,6 @@ import NotFound from "./components/NotFound/NotFound";
 function App() {
   return (
     <div>
-    <h1>UdeSA Movies</h1>
-    <Header/>
       <Switch>
         <Route path="/" exact={true} component={Home}/>
         <Route path="/Login" component={Login}/>

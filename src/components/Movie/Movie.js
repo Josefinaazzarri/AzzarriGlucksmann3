@@ -4,27 +4,97 @@ import Cookies from "universal-cookie";
 
 const cookies = new Cookies()
 
-class Elemento extends Component{
-    constructor(props){
-        super(props)
+class Elemento extends Component {
+    constructor(props) {
+        super(props);
         this.state = {
             id: props.datos.id,
             Img: props.datos.poster_path,
-            Name: props.datos.original_title,
+            Name: props.datos.original_title || props.datos.name,
             Descripcion: props.datos.overview,
             tipo: props.tipo,
             verDescripcion: false,
+            esFavorito: false
+        };
+    }
+
+    componentDidMount() {
+        let clave;
+
+        if (this.props.tipo === "movie") {
+            clave = "favoritosPeliculas";
+        } else {
+            clave = "favoritosSeries";
+        }
+
+        let storage = localStorage.getItem(clave);
+
+        if (storage !== null) {
+            let array = JSON.parse(storage);
+
+            for (let i = 0; i < array.length; i++) {
+                if (array[i] === this.props.datos.id) {
+                    this.setState({
+                        esFavorito: true
+                    });
+                }
+            }
         }
     }
 
-     verDescripcion(){
+    verDescripcion() {
         this.setState({
             verDescripcion: !this.state.verDescripcion
-        })
+        });
     }
 
-    agregarFavoritos(){
-        cookies.get("usuarioLogueado")
+    manejarFavoritos() {
+        let clave;
+
+        if (this.props.tipo === "movie") {
+            clave = "favoritosPeliculas";
+        } else {
+            clave = "favoritosSeries";
+        }
+
+        let storage = localStorage.getItem(clave);
+        let arrayFavoritos = [];
+
+        if (storage !== null) {
+            arrayFavoritos = JSON.parse(storage);
+        }
+
+        let existe = false;
+
+        for (let i = 0; i < arrayFavoritos.length; i++) {
+            if (arrayFavoritos[i] === this.props.datos.id) {
+                existe = true;
+            }
+        }
+
+        if (existe === false) {
+            arrayFavoritos.push(this.props.datos.id);
+
+            localStorage.setItem(clave, JSON.stringify(arrayFavoritos));
+
+            this.setState({
+                esFavorito: true
+            });
+        } else {
+            let nuevoArray = [];
+
+            for (let i = 0; i < arrayFavoritos.length; i++) {
+                if (arrayFavoritos[i] !== this.props.datos.id) {
+                    nuevoArray.push(arrayFavoritos[i]);
+                }
+            }
+
+            localStorage.setItem(clave, JSON.stringify(nuevoArray));
+
+            this.setState({
+                esFavorito: false
+            });
+        }
     }
 
     render(){
@@ -43,7 +113,9 @@ class Elemento extends Component{
                 <button className="btn btn-primary" >Ir a detalle</button> 
                 </Link>
                 <section className={cookies.get("usuarioLogueado") ? "show" : "hide"}>
-                    <button className="btn btn-primary">Agregar a Favoritos</button>
+                    <button className="btn btn-primary"onClick={() => this.manejarFavoritos()}>
+                        {this.state.esFavorito ? "Quitar de Favoritos" : "Agregar a Favoritos"}
+                    </button>
                 </section>
             </div>
         </article>
