@@ -1,5 +1,4 @@
 import {BrowserRouter, Link, Route, Switch} from 'react-router-dom';
-import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import CrearCuenta from './screens/CrearCuenta/CrearCuenta';
 import Home from './screens/Home/Home';

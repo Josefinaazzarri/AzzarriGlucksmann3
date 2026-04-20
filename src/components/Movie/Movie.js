@@ -9,9 +9,9 @@ class Elemento extends Component {
         super(props);
         this.state = {
             id: props.datos.id,
-            Img: props.datos.poster_path,
-            Name: props.datos.original_title || props.datos.name,
-            Descripcion: props.datos.overview,
+            img: props.datos.poster_path,
+            name: props.datos.original_title ? props.datos.original_title : props.datos.name,
+            descripcion: props.datos.overview,
             tipo: props.tipo,
             verDescripcion: false,
             esFavorito: false
@@ -19,7 +19,7 @@ class Elemento extends Component {
     }
 
     componentDidMount() {
-        let clave;
+        let clave = "";
 
         if (this.props.tipo === "movie") {
             clave = "favoritosPeliculas";
@@ -49,7 +49,7 @@ class Elemento extends Component {
     }
 
     manejarFavoritos() {
-        let clave;
+        let clave = "";
 
         if (this.props.tipo === "movie") {
             clave = "favoritosPeliculas";
@@ -102,12 +102,12 @@ class Elemento extends Component {
         <article className="single-card-movie">
             <img src={"https://image.tmdb.org/t/p/w342" + this.props.datos.poster_path} alt="imagen" className="card-img-top"/>
             <div className="cardBody">
-                <h5 className="card-title">{this.state.Name} </h5>
+                <h5 className="card-title">{this.state.name} </h5>
                 <button className="btn btn-primary" onClick={() => this.verDescripcion()}>
                     {this.state.verDescripcion ? "Ocultar descripcion" : "Ver descripcion"}
                 </button>
                 <section className={this.state.verDescripcion ? "show" : "hide"}>
-                <p className="card-text">Descripcion: {this.state.Descripcion}</p>
+                <p className="card-text">Descripcion: {this.state.descripcion}</p>
                 </section>
                 <Link to={"/UnDetalle/" + this.props.tipo + "/" + this.props.datos.id}>
                 <button className="btn btn-primary" >Ir a detalle</button> 

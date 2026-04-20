@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import Elemento from "../../components/Movie/Movie";
 import Header from "../../components/Header/Header";
+import Loading from "../../components/Loader/Loader";
 
 
 class Favoritos extends Component {
@@ -8,7 +9,8 @@ class Favoritos extends Component {
       super(props)
       this.state = {
       peliculas: [],
-      series: []
+      series: [],
+      loading: true
     }
   }
 
@@ -17,16 +19,17 @@ class Favoritos extends Component {
     let storageSeries = localStorage.getItem("favoritosSeries");
 
     if(storagePeliculas !== null){
-      let storagePeliculasParseado = JSON.parse(storagePeliculas);
+      let storagePeliculasDos = JSON.parse(storagePeliculas);
       let arrayPeliculas = [];
 
-      storagePeliculasParseado.map(id =>
-      fetch (`https://api.themoviedb.org/3/movie/${id}?api_key=72a023a2665eca4e7abeca593a5c2e2a⁠`)
+      storagePeliculasDos.map(id =>
+      fetch (`https://api.themoviedb.org/3/movie/${id}?api_key=72a023a2665eca4e7abeca593a5c2e2a`)
         .then(response => response.json())
         .then(data => {
           arrayPeliculas.push(data);
           this.setState({
-          peliculas: arrayPeliculas
+          peliculas: arrayPeliculas,
+          loading: false
           });
           })
         .catch(error => console.log(error))
@@ -34,16 +37,17 @@ class Favoritos extends Component {
         }
 
       if(storageSeries !== null){
-        let storageSeriesParseado = JSON.parse(storageSeries);
+        let storageSeriesDos = JSON.parse(storageSeries);
         let arraySeries = [];
 
-        storageSeriesParseado.map(id =>
+        storageSeriesDos.map(id =>
         fetch(`https://api.themoviedb.org/3/tv/${id}?api_key=3f1682dada002836e815351506ac3816`)
           .then(response => response.json())
           .then(data => {
           arraySeries.push(data);
           this.setState({
-          series: arraySeries
+          series: arraySeries,
+          loading: false
             });
           })
           .catch(error => console.log(error))
@@ -51,6 +55,9 @@ class Favoritos extends Component {
         }
     }
 render(){
+  if(this.state.loading){
+        return <Loading/>
+      }
   return(
     <div>
       <h1>UdeSA Movies</h1>
@@ -66,7 +73,6 @@ render(){
       <section>
       {this.state.series.length === 0 ? <p>No hay series favoritas</p> :
        this.state.series.map ((serie, idx) => (<Elemento datos={serie} key={serie.id} tipo={"tv"} />)
-
         )
         }
       </section>

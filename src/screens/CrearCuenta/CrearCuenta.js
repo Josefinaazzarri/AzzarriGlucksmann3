@@ -41,10 +41,9 @@ class CrearCuenta extends Component {
         puedeGuardar = false
       }
 
-      if(puedeGuardar == true){
+      if(puedeGuardar === true){
         lista.push(usuario)
         cookies.set("usuarios", lista)
-        cookies.set('usuarioLogueado', usuario.email)
         alert("Usuario guardado")
         this.props.history.push("/Login")
       }
@@ -68,6 +67,7 @@ class CrearCuenta extends Component {
     <h1>UdeSA Movies</h1>
     <Header/>
           <div className="col-md-6">
+            <h2>Crear Cuenta</h2>
             <form onSubmit={(event)=> this.enviarFormulario(event)}>
               <div className="form-group">
                 <label>Email:</label>

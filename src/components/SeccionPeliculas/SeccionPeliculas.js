@@ -2,14 +2,15 @@ import React, {Component} from "react";
 import {Link} from "react-router-dom/cjs/react-router-dom.min";
 import Elemento from "../Movie/Movie";
 import FormularioB from "../FormularioB/FormularioB"; 
-import Populares from "../PeliculasPopulares/PeliculasPopulares";
+import Loading from "../Loader/Loader";
 
 class Grupos extends Component{
     constructor(props){
     super(props)
     this.state = {
         datosPopulares: [],
-        datosCartel: []
+        datosCartel: [],
+        loading: true
     }
 };
 
@@ -18,20 +19,29 @@ componentDidMount(){
         .then(response => response.json())
         .then(data => {
       console.log(data.results)
-      this.setState({ datosPopulares: data.results})
+      this.setState({
+        datosPopulares: data.results,
+        loading: false
+      })
     })
     .catch( error => console.log(error))
 
     fetch("https://api.themoviedb.org/3/movie/now_playing?api_key=72a023a2665eca4e7abeca593a5c2e2a")
     .then(res => res.json())
     .then(data => {
-      this.setState({ datosCartel: data.results })
+      this.setState({
+        datosCartel: data.results,
+        loading: false 
+      })
     })
     .catch( error => console.log(error))
 }
 
 
 render(){
+     if(this.state.loading){
+            return <Loading/>
+        }
     return(
         <div> 
             <FormularioB className="search-form" />

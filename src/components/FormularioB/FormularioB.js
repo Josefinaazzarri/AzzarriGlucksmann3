@@ -30,7 +30,7 @@ class FormularioB extends Component {
 
     render(){
         return(
-            <form className="search-form" onSubmit={(event)=> this.enviarFormulario(event)}>
+            <form className="search-form nav" onSubmit={(event)=> this.enviarFormulario(event)}>
                 <div className="btn-group mb-2">
                     <button 
                         type="button" 
@@ -43,7 +43,7 @@ class FormularioB extends Component {
                         onClick={() => this.cambiarTipo("tv")}
                     >Series</button>
                 </div>
-                <input className="" type="text" onChange={(event)=> this.controlarCambios(event)}/>
+                <input className="navbar" type="text" onChange={(event)=> this.controlarCambios(event)}/>
                 <button className="btn btn-success btn-sm" type="submit">Enviar</button>
             </form>
         )

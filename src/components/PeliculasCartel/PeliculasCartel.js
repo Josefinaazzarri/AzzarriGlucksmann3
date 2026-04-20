@@ -1,6 +1,8 @@
 import React, {Component} from "react";
-import { Link } from "react-router-dom";
 import Elemento from "../Movie/Movie";
+import Loading from "../Loader/Loader";
+import Header from "../Header/Header";
+
 class Cartel extends Component{
     constructor(props){
         super(props)
@@ -8,7 +10,8 @@ class Cartel extends Component{
             datosC: [],
             datosCopia: [],
             pagina: 2,
-            filtro: ""
+            filtro: "",
+            loading: true
         }
     }
 componentDidMount(){
@@ -16,7 +19,11 @@ componentDidMount(){
     .then(response => response.json())
         .then(data => {
       console.log(data.results)
-      this.setState({ datosC: data.results, datosCopia: data.results})
+      this.setState({
+        datosC: data.results,
+        datosCopia: data.results,
+        loading: false
+    })
     })
     .catch( error => console.log(error))
 }
@@ -47,10 +54,14 @@ cargarMas(){
     }
 
 render(){
+     if(this.state.loading){
+            return <Loading/>
+        }
     return(
-        
         <div>
-            <h2 className="alert alert-primary">Todas las películas</h2>
+        <h1>UdeSA Movies</h1>
+        <Header/> 
+            <h2 className="alert alert-primary">Todas las películas en cartel</h2>
         <form className="filter-form px-0 mb-3" onSubmit={(event)=> this.enviarFormulario(event)}>
             <input type="text" name="filter" id="" onChange={(event) => this.controlarInput(event)}/>
             <button className="btn btn-success btn-sm" type="submit">Enviar</button>

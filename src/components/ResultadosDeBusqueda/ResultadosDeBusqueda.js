@@ -1,6 +1,7 @@
 import { Component } from "react";
 import Elemento from "../Movie/Movie";
 import Loading from "../Loader/Loader";
+import Header from "../Header/Header";
 
 class ResultadosDeBusqueda extends Component{
      constructor(props){
@@ -29,6 +30,8 @@ class ResultadosDeBusqueda extends Component{
     render() {
     return (
         <div>
+            <h1>UdeSA Movies</h1>
+            <Header/>   
             <h2 className="alert alert-primary">Resultados para: "{this.props.match.params.busqueda}"</h2>
             <section className="row cards">
                 {this.state.loading ? <Loading/> : this.state.peliculas.map((peli, idx) => { return <Elemento datos={peli} key={peli.id} tipo={this.props.match.params.tipo} /> })
