@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import Loading from "../Loader/Loader";
 import Header from "../Header/Header";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies()
 
 function UnDetalle(props){
     const tipo = props.match.params.tipo
@@ -40,6 +43,78 @@ class Detalle extends Component{
         }))
         .catch(error => console.log(error))
     }
+    agregar() {
+        let clave = "";
+
+        if (this.props.tipo === "movie") {
+            clave = "favoritosPeliculas";
+        } else {
+            clave = "favoritosSeries";
+        }
+
+        let storage = localStorage.getItem(clave);
+
+        if (storage !== null) {
+            let array = JSON.parse(storage);
+
+            for (let i = 0; i < array.length; i++) {
+                if (array[i] === this.props.id) {
+                    this.setState({
+                        esFavorito: true
+                    });
+                }
+            }
+        }
+    }
+     manejarFavoritos() {
+        let clave = "";
+
+        if (this.props.tipo === "movie") {
+            clave = "favoritosPeliculas";
+        } else {
+            clave = "favoritosSeries";
+        }
+
+        let storage = localStorage.getItem(clave);
+        let arrayFavoritos = [];
+
+        if (storage !== null) {
+            arrayFavoritos = JSON.parse(storage);
+        }
+
+        let existe = false;
+
+        for (let i = 0; i < arrayFavoritos.length; i++) {
+            if (arrayFavoritos[i] === this.props.id) {
+                existe = true;
+            }
+        }
+
+        if (existe === false) {
+            arrayFavoritos.push(this.props.id);
+
+            localStorage.setItem(clave, JSON.stringify(arrayFavoritos));
+
+            this.setState({
+                esFavorito: true
+            });
+        } else {
+            let nuevoArray = [];
+
+            for (let i = 0; i < arrayFavoritos.length; i++) {
+                if (arrayFavoritos[i] !== this.props.id) {
+                    nuevoArray.push(arrayFavoritos[i]);
+                }
+            }
+
+            localStorage.setItem(clave, JSON.stringify(nuevoArray));
+
+            this.setState({
+                esFavorito: false
+            });
+        }
+    }
+
 
     render(){
         if(this.state.loading){
@@ -58,7 +133,11 @@ class Detalle extends Component{
                 <p className="mt-0 mb-0"> Duración: {this.state.duracion} minutos</p>
                 <p className="mt-0 mb-0">Sinopsis: {this.state.sinopsis}</p>
                 <p className="mt-0 mb-0">Género: {this.state.genero}</p>
-                <button>Agregar a favoritos</button>
+                <section className={cookies.get("usuarioLogueado") ? "show" : "hide"}>
+                    <button className="btn btn-primary"onClick={() => this.manejarFavoritos()}>
+                        {this.state.esFavorito ? "Quitar de Favoritos" : "Agregar a Favoritos"}
+                    </button>
+                </section>
             </section>
             )
 
@@ -72,7 +151,11 @@ class Detalle extends Component{
                 <p className="mt-0 mb-0">Fecha: {this.state.fecha}</p>
                 <p className="mt-0 mb-0">Sinopsis: {this.state.sinopsis}</p>
                 <p className="mt-0 mb-0">Género: {this.state.genero}</p>
-                <button>Agregar a favoritos</button>
+                <section className={cookies.get("usuarioLogueado") ? "show" : "hide"}>
+                    <button className="btn btn-primary"onClick={() => this.manejarFavoritos()}>
+                        {this.state.esFavorito ? "Quitar de Favoritos" : "Agregar a Favoritos"}
+                    </button>
+                </section>
 
             </section>
             )

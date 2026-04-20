@@ -4,6 +4,7 @@ import Header from "../../components/Header/Header";
 import Loading from "../../components/Loader/Loader";
 
 
+
 class Favoritos extends Component {
     constructor(props){
       super(props)
@@ -63,14 +64,14 @@ render(){
       <h1>UdeSA Movies</h1>
     <Header/>
       <h2>Películas Favoritas</h2>
-      <section>
+      <section className="row cards">
         {this.state.peliculas.length === 0 ? <p>No hay películas favoritas</p> :
         this.state.peliculas.map ((pelicula, idx) => (<Elemento datos={pelicula} key={pelicula.id} tipo={"movie"} />))
         }
       </section>
 
        <h2>Series Favoritas</h2>
-      <section>
+      <section className="row cards">
       {this.state.series.length === 0 ? <p>No hay series favoritas</p> :
        this.state.series.map ((serie, idx) => (<Elemento datos={serie} key={serie.id} tipo={"tv"} />)
         )
