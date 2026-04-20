@@ -29,11 +29,11 @@ class Elemento extends Component {
 
         let storage = localStorage.getItem(clave);
 
-        if (storage !== null) {
+        if (storage != null) {
             let array = JSON.parse(storage);
 
             for (let i = 0; i < array.length; i++) {
-                if (array[i] === this.props.datos.id) {
+                if (array[i] == this.props.datos.id) {
                     this.setState({
                         esFavorito: true
                     });
@@ -67,7 +67,7 @@ class Elemento extends Component {
         let existe = false;
 
         for (let i = 0; i < arrayFavoritos.length; i++) {
-            if (arrayFavoritos[i] === this.props.datos.id) {
+            if (arrayFavoritos[i] == this.props.datos.id) {
                 existe = true;
             }
         }

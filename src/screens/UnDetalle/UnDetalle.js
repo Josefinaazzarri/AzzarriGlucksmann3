@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Loading from "../Loader/Loader";
-import Header from "../Header/Header";
+import Header from "../../components/Header/Header";
+import Loading from "../../components/Loader/Loader";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies()
@@ -26,6 +26,7 @@ class Detalle extends Component{
             sinopsis: "",
             genero: "",
             loading: true,
+            esFavorito: false
         }
     }
 
@@ -39,11 +40,12 @@ class Detalle extends Component{
             fecha: data.release_date ? data.release_date : data.first_air_date,
             duracion: data.runtime,
             sinopsis: data.overview,
+            genero: data.genres,
             loading: false
         }))
         .catch(error => console.log(error))
-    }
-    agregar() {
+
+
         let clave = "";
 
         if (this.props.tipo === "movie") {
@@ -55,24 +57,25 @@ class Detalle extends Component{
         let storage = localStorage.getItem(clave);
 
         if (storage !== null) {
-            let array = JSON.parse(storage);
+        let array = JSON.parse(storage);
 
-            for (let i = 0; i < array.length; i++) {
-                if (array[i] === this.props.id) {
-                    this.setState({
-                        esFavorito: true
-                    });
-                }
+        for (let i = 0; i < array.length; i++) {
+        if (array[i] == this.props.id) {
+            this.setState({
+                esFavorito: true
+            });
             }
         }
+        }
     }
-     manejarFavoritos() {
+  
+    manejarFavoritos() {
         let clave = "";
 
         if (this.props.tipo === "movie") {
-            clave = "favoritosPeliculas";
+        clave = "favoritosPeliculas";
         } else {
-            clave = "favoritosSeries";
+        clave = "favoritosSeries";
         }
 
         let storage = localStorage.getItem(clave);
@@ -85,7 +88,7 @@ class Detalle extends Component{
         let existe = false;
 
         for (let i = 0; i < arrayFavoritos.length; i++) {
-            if (arrayFavoritos[i] === this.props.id) {
+            if (arrayFavoritos[i] == this.props.id) {
                 existe = true;
             }
         }
@@ -102,9 +105,9 @@ class Detalle extends Component{
             let nuevoArray = [];
 
             for (let i = 0; i < arrayFavoritos.length; i++) {
-                if (arrayFavoritos[i] !== this.props.id) {
-                    nuevoArray.push(arrayFavoritos[i]);
-                }
+                if (arrayFavoritos[i] != this.props.id) {
+                nuevoArray.push(arrayFavoritos[i]);
+             }
             }
 
             localStorage.setItem(clave, JSON.stringify(nuevoArray));
@@ -115,7 +118,6 @@ class Detalle extends Component{
         }
     }
 
-
     render(){
         if(this.state.loading){
             return <Loading/>
@@ -123,41 +125,54 @@ class Detalle extends Component{
         
         if(this.props.tipo === "movie"){
             return(
-            <section className="row">
+            <div>
                 <h1>UdeSA Movies</h1>
                 <Header/>
-                <img className='col-md-6'src={"https://image.tmdb.org/t/p/w342" + this.state.img} alt={this.state.name}/>
+                <section className="row">
+                <article className="detalle-img">
+                    <img src={"https://image.tmdb.org/t/p/w342" + this.state.img} alt={this.state.name}/>
+                </article>
+                <article className="col-md-6">
                 <h2 className="alert alert-primary">{this.state.name}</h2>
                 <p className="mt-0 mb-0">Calificación: {this.state.rating}</p>
                 <p className="mt-0 mb-0">Fecha: {this.state.fecha}</p>
                 <p className="mt-0 mb-0"> Duración: {this.state.duracion} minutos</p>
                 <p className="mt-0 mb-0">Sinopsis: {this.state.sinopsis}</p>
-                <p className="mt-0 mb-0">Género: {this.state.genero}</p>
+                <p className="mt-0 mb-0">Género: {this.state.genero.map((gen, idx) => gen.name + "  ")}</p>
                 <section className={cookies.get("usuarioLogueado") ? "show" : "hide"}>
                     <button className="btn btn-primary"onClick={() => this.manejarFavoritos()}>
                         {this.state.esFavorito ? "Quitar de Favoritos" : "Agregar a Favoritos"}
                     </button>
                 </section>
-            </section>
+                </article>
+                </section>
+            </div>
             )
 
         }
         else{
             return(
-            <section className="row">
-                <img className='col-md-6'src={"https://image.tmdb.org/t/p/w342" + this.state.img} alt={this.state.name}/>
-                <h2 className="alert alert-warning">{this.state.name}</h2>
-                <p className="mt-0 mb-0">Calificación: {this.state.rating}</p>
-                <p className="mt-0 mb-0">Fecha: {this.state.fecha}</p>
-                <p className="mt-0 mb-0">Sinopsis: {this.state.sinopsis}</p>
-                <p className="mt-0 mb-0">Género: {this.state.genero}</p>
-                <section className={cookies.get("usuarioLogueado") ? "show" : "hide"}>
+            <div>
+                <h1>UdeSA Movies</h1>
+                <Header/>
+                <section className="row">
+                <article className="detalle-img">
+                    <img src={"https://image.tmdb.org/t/p/w342" + this.state.img} alt={this.state.name}/>
+                </article>
+                <article className="col-md-6">
+                    <h2 className="alert alert-warning">{this.state.name}</h2>
+                    <p className="mt-0 mb-0">Calificación: {this.state.rating}</p>
+                    <p className="mt-0 mb-0">Fecha: {this.state.fecha}</p>
+                    <p className="mt-0 mb-0">Sinopsis: {this.state.sinopsis}</p>
+                    <p className="mt-0 mb-0">Género: {this.state.genero}</p>
+                    <section className={cookies.get("usuarioLogueado") ? "show" : "hide"}>
                     <button className="btn btn-primary"onClick={() => this.manejarFavoritos()}>
                         {this.state.esFavorito ? "Quitar de Favoritos" : "Agregar a Favoritos"}
                     </button>
+                    </section>
+                 </article>
                 </section>
-
-            </section>
+            </div>
             )
 
         }

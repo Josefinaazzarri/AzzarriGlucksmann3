@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom/cjs/react-router-dom.min";
 import Elemento from "../Movie/Movie";
-import FormularioB from "../FormularioB/FormularioB"; 
+import FormularioB from "../../screens/FormularioB/FormularioB";
 import Loading from "../Loader/Loader";
 
 class Grupos extends Component{

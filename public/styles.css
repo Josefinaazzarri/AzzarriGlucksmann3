@@ -6,6 +6,9 @@ nav {
     margin-bottom: 20px;
 }
 
+.detalle-img img{
+    width: 500px;
+}
 .button{
     width: 10px;
 }
@@ -103,6 +106,7 @@ nav {
     border-radius: 5px;
     background-color: rgba(106, 132, 203, 0.216);
 }
+
 
 
 .row{

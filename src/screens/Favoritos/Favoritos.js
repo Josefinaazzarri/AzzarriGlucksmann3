@@ -55,6 +55,7 @@ class Favoritos extends Component {
           )
         }
     }
+    
 render(){
   if(this.state.loading){
         return <Loading/>
