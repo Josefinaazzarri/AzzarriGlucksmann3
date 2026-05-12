@@ -1,27 +1,23 @@
-import React, {Component} from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import Cookies from "universal-cookie";
 
 const cookies = new Cookies()
 
-class Elemento extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            id: props.datos.id,
-            img: props.datos.poster_path,
-            name: props.datos.original_title ? props.datos.original_title : props.datos.name,
-            descripcion: props.datos.overview,
-            tipo: props.tipo,
-            verDescripcion: false,
-            esFavorito: false
-        };
-    }
+function Elemento(props) {
 
-    componentDidMount() {
+    const [id] = useState(props.datos.id);
+    const [img] = useState(props.datos.poster_path);
+    const [name] = useState(props.datos.original_title ? props.datos.original_title : props.datos.name);
+    const [descripcion] = useState(props.datos.overview);
+    const [tipo] = useState(props.tipo);
+    const [verDescripcion, setVerDescripcion] = useState(false);
+    const [esFavorito, setEsFavorito] = useState(false);
+
+    useEffect(() => {
         let clave = "";
 
-        if (this.props.tipo === "movie") {
+        if (props.tipo === "movie") {
             clave = "favoritosPeliculas";
         } else {
             clave = "favoritosSeries";
@@ -33,25 +29,21 @@ class Elemento extends Component {
             let array = JSON.parse(storage);
 
             for (let i = 0; i < array.length; i++) {
-                if (array[i] == this.props.datos.id) {
-                    this.setState({
-                        esFavorito: true
-                    });
+                if (array[i] == props.datos.id) {
+                    setEsFavorito(true);
                 }
             }
         }
+    }, []);
+
+    function verDescripcionFunc() {
+        setVerDescripcion(!verDescripcion);
     }
 
-    verDescripcion() {
-        this.setState({
-            verDescripcion: !this.state.verDescripcion
-        });
-    }
-
-    manejarFavoritos() {
+    function manejarFavoritos() {
         let clave = "";
 
-        if (this.props.tipo === "movie") {
+        if (props.tipo === "movie") {
             clave = "favoritosPeliculas";
         } else {
             clave = "favoritosSeries";
@@ -67,61 +59,54 @@ class Elemento extends Component {
         let existe = false;
 
         for (let i = 0; i < arrayFavoritos.length; i++) {
-            if (arrayFavoritos[i] == this.props.datos.id) {
+            if (arrayFavoritos[i] == props.datos.id) {
                 existe = true;
             }
         }
 
         if (existe === false) {
-            arrayFavoritos.push(this.props.datos.id);
+            arrayFavoritos.push(props.datos.id);
 
             localStorage.setItem(clave, JSON.stringify(arrayFavoritos));
 
-            this.setState({
-                esFavorito: true
-            });
+            setEsFavorito(true);
         } else {
             let nuevoArray = [];
 
             for (let i = 0; i < arrayFavoritos.length; i++) {
-                if (arrayFavoritos[i] !== this.props.datos.id) {
+                if (arrayFavoritos[i] !== props.datos.id) {
                     nuevoArray.push(arrayFavoritos[i]);
                 }
             }
 
             localStorage.setItem(clave, JSON.stringify(nuevoArray));
 
-            this.setState({
-                esFavorito: false
-            });
+            setEsFavorito(false);
         }
     }
 
-    render(){
-        return(
+    return(
         <article className="single-card-movie">
-            <img src={"https://image.tmdb.org/t/p/w342" + this.props.datos.poster_path} alt="imagen" className="card-img-top"/>
+            <img src={"https://image.tmdb.org/t/p/w342" + props.datos.poster_path} alt="imagen" className="card-img-top"/>
             <div className="cardBody">
-                <h5 className="card-title">{this.state.name} </h5>
-                <button className="btn btn-primary" onClick={() => this.verDescripcion()}>
-                    {this.state.verDescripcion ? "Ocultar descripcion" : "Ver descripcion"}
+                <h5 className="card-title">{name} </h5>
+                <button className="btn btn-primary" onClick={() => verDescripcionFunc()}>
+                    {verDescripcion ? "Ocultar descripcion" : "Ver descripcion"}
                 </button>
-                <section className={this.state.verDescripcion ? "show" : "hide"}>
-                <p className="card-text">Descripcion: {this.state.descripcion}</p>
+                <section className={verDescripcion ? "show" : "hide"}>
+                    <p className="card-text">Descripcion: {descripcion}</p>
                 </section>
-                <Link to={"/UnDetalle/" + this.props.tipo + "/" + this.props.datos.id}>
-                <button className="btn btn-primary" >Ir a detalle</button> 
+                <Link to={"/UnDetalle/" + props.tipo + "/" + props.datos.id}>
+                    <button className="btn btn-primary">Ir a detalle</button> 
                 </Link>
                 <section className={cookies.get("usuarioLogueado") ? "show" : "hide"}>
-                    <button className="btn btn-primary"onClick={() => this.manejarFavoritos()}>
-                        {this.state.esFavorito ? "Quitar de Favoritos" : "Agregar a Favoritos"}
+                    <button className="btn btn-primary" onClick={() => manejarFavoritos()}>
+                        {esFavorito ? "Quitar de Favoritos" : "Agregar a Favoritos"}
                     </button>
                 </section>
             </div>
         </article>
-        )
-    }
+    )
 }
 
-
-export default Elemento
+export default Elemento;
